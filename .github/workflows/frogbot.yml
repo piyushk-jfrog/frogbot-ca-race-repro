@@ -16,6 +16,11 @@ jobs:
       JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       JFROG_CLI_LOG_LEVEL: DEBUG
     steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Poetry
+        run: pip install poetry==1.4.2
       - uses: jfrog/frogbot@v2
         with:
           oidc-provider-name: ""
