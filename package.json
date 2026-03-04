@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "express": "4.16.0",
-    "minimist": "0.0.8",
-    "node-fetch": "2.6.0"
+    "lodash": "4.17.4",
+    "got": "9.6.0",
+    "serialize-javascript": "1.9.0"
   }
 }
