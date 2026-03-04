@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "ca-race-repro"
+name = "dashboard-ui"
 version = "0.1.0"
-description = "Minimal project - no vulnerable deps on main branch"
+description = "Dashboard UI Backend"
 authors = ["test <test@test.com>"]
 package-mode = false
 
