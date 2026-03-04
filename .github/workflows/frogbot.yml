@@ -1,26 +1,33 @@
-name: "Frogbot Scan Pull Request"
+name: Frogbot Scan
 on:
   pull_request_target:
     types: [opened, synchronize]
 permissions:
-  contents: read
   pull-requests: write
-  security-events: write
+  contents: read
 jobs:
   frogbot-scan:
     runs-on: ubuntu-latest
     environment: frogbot
-    env:
-      JF_URL: ${{ secrets.JF_URL }}
-      JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-      JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      JFROG_CLI_LOG_LEVEL: DEBUG
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Install Poetry
         run: pip install poetry
-      - uses: jfrog/frogbot@v2
+
+      - uses: actions/setup-node@v4
         with:
-          oidc-provider-name: ""
+          node-version: "18"
+
+      - uses: jfrog/frogbot@v2
+        env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JFROG_CLI_LOG_LEVEL: DEBUG
