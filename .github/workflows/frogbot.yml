@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Poetry
-        run: pip install poetry==1.4.2
+        run: pip install poetry
       - uses: jfrog/frogbot@v2
         with:
           oidc-provider-name: ""
