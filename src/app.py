@@ -17,3 +17,4 @@ if __name__ == "__main__":
     config = load_config("config.yaml")
     html = render_template("<h1>{{ title }}</h1>", title=config.get("title", "Dashboard"))
     print(html)
+
