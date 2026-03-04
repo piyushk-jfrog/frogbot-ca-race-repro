@@ -1,20 +1,20 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const minimist = require('minimist');
+const _ = require('lodash');
+const got = require('got');
+const serialize = require('serialize-javascript');
 
-const args = minimist(process.argv.slice(2));
-const app = express();
+// Safe usage - CA should mark vulnerabilities as "Not Applicable"
+const data = { name: 'analytics', version: '1.0.0' };
+const merged = _.merge({}, data, { timestamp: Date.now() });
+const serialized = serialize(merged, { isJSON: true });
+console.log('Config:', serialized);
 
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', port: args.port || 3000 });
-});
+async function healthCheck() {
+  try {
+    const response = await got('https://httpbin.org/get', { timeout: 5000 });
+    return JSON.parse(response.body);
+  } catch (err) {
+    return { status: 'error', message: err.message };
+  }
+}
 
-app.get('/data', async (req, res) => {
-  const items = [3, 1, 4, 1, 5, 9];
-  const sorted = items.sort((a, b) => a - b);
-  const unique = [...new Set(sorted)];
-  res.json({ items: unique });
-});
-
-const port = args.port || 3000;
-console.log("Analytics service ready on port", port);
+healthCheck().then(r => console.log('Health:', r.status || 'ok'));
