@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "dashboard-ui"
+name = "analytics-service"
 version = "0.1.0"
-description = "Dashboard UI Backend"
+description = "Analytics microservice"
 authors = ["test <test@test.com>"]
 
 [tool.poetry.dependencies]
