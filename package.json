@@ -2,5 +2,11 @@
   "name": "analytics-service",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "minimist": "0.0.8",
+    "qs": "6.5.2",
+    "underscore": "1.12.0",
+    "node-uuid": "1.4.0",
+    "merge": "1.2.0"
+  }
 }
