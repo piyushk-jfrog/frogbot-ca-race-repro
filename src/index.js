@@ -1,20 +1,14 @@
-const _ = require('lodash');
-const got = require('got');
-const serialize = require('serialize-javascript');
+const minimist = require('minimist');
+const qs = require('qs');
+const _ = require('underscore');
+const uuid = require('node-uuid');
+const merge = require('merge');
 
-// Safe usage - CA should mark vulnerabilities as "Not Applicable"
-const data = { name: 'analytics', version: '1.0.0' };
-const merged = _.merge({}, data, { timestamp: Date.now() });
-const serialized = serialize(merged, { isJSON: true });
-console.log('Config:', serialized);
+// Safe usage patterns — CA should mark these as "Not Applicable"
+const args = minimist(['--name', 'analytics', '--version', '1.0.0']);
+const query = qs.stringify({ service: args.name, v: args.version });
+const config = _.defaults({ port: 3000 }, { port: 8080, host: 'localhost' });
+const id = uuid.v4();
+const result = merge({ id, query }, config);
 
-async function healthCheck() {
-  try {
-    const response = await got('https://httpbin.org/get', { timeout: 5000 });
-    return JSON.parse(response.body);
-  } catch (err) {
-    return { status: 'error', message: err.message };
-  }
-}
-
-healthCheck().then(r => console.log('Health:', r.status || 'ok'));
+console.log('Service config:', JSON.stringify(result, null, 2));
